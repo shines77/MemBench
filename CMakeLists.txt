@@ -53,6 +53,8 @@ endif()
 
 include_directories(include)
 include_directories(src)
+include_directories(third)
+include_directories(third/benchmark/include)
 
 set(SOURCE_FILES
     src/MemBench/benchmark.cpp
