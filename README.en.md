@@ -10,6 +10,8 @@ Software architecture description
 
 ## Installation
 
+### 2.1 Install Google/benchmark
+
 Update submodule `Google/benchmark` :
 
 ```shell
@@ -32,7 +34,7 @@ sudo cmake -E chdir "build" cmake -DBENCHMARK_DOWNLOAD_DEPENDENCIES=on -DBENCHMA
 sudo cmake --build "build" --config Release --target install
 ```
 
-### 2.2 编译 MemBench
+### 2.2 Compile MemBench
 
 ```shell
 # Gnerate Makefile files with cmake
