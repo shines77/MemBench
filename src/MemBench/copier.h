@@ -35,6 +35,8 @@ SOFTWARE.
 #include <thread>
 #include <vector>
 
+#define ADDR_ALIGNTO(s, a)  (((s - 1) | (a - 1)) + 1)
+
 namespace jstd {
 namespace memory {
 
@@ -83,8 +85,8 @@ public:
     }
 
     void _copy(void *d, void *s, size_t n) {
-        n = SHMALIGN(n, sizeof(typename BaseCopierT::PtrT)) /
-            sizeof(typename BaseCopierT::PtrT);
+        n = ADDR_ALIGNTO(n, sizeof(typename BaseCopierT::PtrT)) /
+                         sizeof(typename BaseCopierT::PtrT);
         std::vector<std::thread> threads;
         threads.reserve(nthreads);
 

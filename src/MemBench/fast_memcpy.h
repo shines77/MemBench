@@ -35,11 +35,9 @@ SOFTWARE.
 namespace jstd {
 namespace memory {
 
-#define SHMALIGN(s, a)  (((s - 1) | (a - 1)) + 1)
-
 inline uint8_t * align_address(void * ptr, size_t alignment) {
     auto int_ptr = reinterpret_cast<uintptr_t>(ptr);
-    auto aligned_int_ptr = SHMALIGN(int_ptr, alignment);
+    auto aligned_int_ptr = ADDR_ALIGNTO(int_ptr, alignment);
     return reinterpret_cast<uint8_t *>(aligned_int_ptr);
 }
 
@@ -95,7 +93,7 @@ public:
     constexpr static size_t alignment = sizeof(__m256i);
 
     void *alloc(size_t size) override {
-        return aligned_alloc(alignment, SHMALIGN(size, alignment));
+        return aligned_alloc(alignment, ADDR_ALIGNTO(size, alignment));
     }
 
     void dealloc(void *ptr) override {
@@ -103,7 +101,7 @@ public:
     }
 
     void copy(void *dst, void *src, size_t size) override {
-        _avx_cpy(dst, src, SHMALIGN(size, alignment));
+        _avx_cpy(dst, src, ADDR_ALIGNTO(size, alignment));
     }
 };
 
@@ -133,7 +131,7 @@ public:
     constexpr static size_t alignment = sizeof(__m256i);
 
     void *alloc(size_t size) override {
-        return aligned_alloc(alignment, SHMALIGN(size, alignment));
+        return aligned_alloc(alignment, ADDR_ALIGNTO(size, alignment));
     }
 
     void dealloc(void *ptr) override {
@@ -141,7 +139,7 @@ public:
     }
 
     void copy(void *dst, void *src, size_t size) override {
-        _avx_async_cpy(dst, src, SHMALIGN(size, alignment));
+        _avx_async_cpy(dst, src, ADDR_ALIGNTO(size, alignment));
     }
 };
 
@@ -177,7 +175,7 @@ public:
     constexpr static size_t alignment = sizeof(__m256i) * 2;
 
     void *alloc(size_t size) override {
-        return aligned_alloc(alignment, SHMALIGN(size, alignment));
+        return aligned_alloc(alignment, ADDR_ALIGNTO(size, alignment));
     }
 
     void dealloc(void *ptr) override {
@@ -185,7 +183,7 @@ public:
     }
 
     void copy(void *dst, void *src, size_t size) override {
-        _avx_async_pf_cpy(dst, src, SHMALIGN(size, alignment));
+        _avx_async_pf_cpy(dst, src, ADDR_ALIGNTO(size, alignment));
     }
 };
 
@@ -216,7 +214,7 @@ public:
     constexpr static size_t alignment = 4 * sizeof(__m256i);
 
     void *alloc(size_t size) override {
-        return aligned_alloc(alignment, SHMALIGN(size, alignment));
+        return aligned_alloc(alignment, ADDR_ALIGNTO(size, alignment));
     }
 
     void dealloc(void *ptr) override {
@@ -224,7 +222,7 @@ public:
     }
 
     void copy(void *dst, void *src, size_t size) override {
-        _avx_cpy_unroll(dst, src, SHMALIGN(size, alignment));
+        _avx_cpy_unroll(dst, src, ADDR_ALIGNTO(size, alignment));
     }
 };
 
@@ -256,7 +254,7 @@ public:
     constexpr static size_t alignment = 4 * sizeof(__m256i);
 
     void *alloc(size_t size) override {
-        return aligned_alloc(alignment, SHMALIGN(size, alignment));
+        return aligned_alloc(alignment, ADDR_ALIGNTO(size, alignment));
     }
 
     void dealloc(void *ptr) override {
@@ -264,7 +262,7 @@ public:
     }
 
     void copy(void *dst, void *src, size_t size) override {
-        _avx_async_cpy_unroll(dst, src, SHMALIGN(size, alignment));
+        _avx_async_cpy_unroll(dst, src, ADDR_ALIGNTO(size, alignment));
     }
 };
 
@@ -303,7 +301,7 @@ public:
     constexpr static size_t alignment = 4 * sizeof(__m256i);
 
     void *alloc(size_t size) override {
-        return aligned_alloc(alignment, SHMALIGN(size, alignment));
+        return aligned_alloc(alignment, ADDR_ALIGNTO(size, alignment));
     }
 
     void dealloc(void *ptr) override {
@@ -311,7 +309,7 @@ public:
     }
 
     void copy(void *dst, void *src, size_t size) override {
-        _avx_async_pf_cpy_unroll(dst, src, SHMALIGN(size, alignment));
+        _avx_async_pf_cpy_unroll(dst, src, ADDR_ALIGNTO(size, alignment));
     }
 };
 
