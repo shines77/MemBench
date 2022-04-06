@@ -20,12 +20,13 @@ Compile and install `Google/benchmark` :
 
 ```shell
 cd ./third/benchmark
+
 # Make a build directory to place the build output.
 sudo mkdir build
 
 # Switch to build folder, generate build system files with cmake,
 # and download any dependencies.
-cmake -E chdir "build" cmake -DBENCHMARK_DOWNLOAD_DEPENDENCIES=on -DBENCHMARK_ENABLE_GTEST_TESTS=OFF -DCMAKE_BUILD_TYPE=Release ../
+sudo cmake -E chdir "build" cmake -DBENCHMARK_DOWNLOAD_DEPENDENCIES=on -DBENCHMARK_ENABLE_GTEST_TESTS=OFF -DCMAKE_BUILD_TYPE=Release ../
 
 # Build "benchmark" library, and install the library globally.
 sudo cmake --build "build" --config Release --target install

@@ -20,11 +20,12 @@ git submodule update --init --recursive
 
 ```shell
 cd ./third/benchmark
+
 # 创建 build 目录
 sudo mkdir build
 
 # 切换到 build 目录, 用 cmake 生成 Makefile 配置文件, 并且下载依赖文件
-cmake -E chdir "build" cmake -DBENCHMARK_DOWNLOAD_DEPENDENCIES=on -DBENCHMARK_ENABLE_GTEST_TESTS=OFF -DCMAKE_BUILD_TYPE=Release ../
+sudo cmake -E chdir "build" cmake -DBENCHMARK_DOWNLOAD_DEPENDENCIES=on -DBENCHMARK_ENABLE_GTEST_TESTS=OFF -DCMAKE_BUILD_TYPE=Release ../
 
 # 编译和生成 benchmark 库, 并安装到系统文件夹里
 sudo cmake --build "build" --config Release --target install
