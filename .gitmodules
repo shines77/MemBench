@@ -1,0 +1,4 @@
+[submodule "third/benchmark"]
+	path = third/benchmark
+	url = https://gitee.com/shines77/benchmark.git
+	branch = main
