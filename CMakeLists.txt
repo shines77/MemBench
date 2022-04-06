@@ -11,6 +11,8 @@ message("  PROJECT_SOURCE_DIR: ${PROJECT_SOURCE_DIR}")
 message("  PROJECT_BINARY_DIR: ${PROJECT_BINARY_DIR}")
 message("----------------------------------")
 
+find_package(benchmark REQUIRED)
+
 if (NOT MSVC)
     ## For C_FLAGS
     ## -mmmx -msse -msse2 -msse3 -mssse3 -msse4 -msse4a -msse4.1 -msse4.2 -mavx -mavx2 -mavx512vl -mavx512f 
@@ -56,6 +58,8 @@ include_directories(src)
 include_directories(third)
 include_directories(third/benchmark/include)
 
+add_subdirectory(third/benchmark)
+
 set(SOURCE_FILES
     src/MemBench/benchmark.cpp
     )
@@ -75,4 +79,4 @@ message("  CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 message("----------------------------------")
 
 add_executable(MemBench ${SOURCE_FILES})
-target_link_libraries(MemBench ${EXTRA_LIBS})
+target_link_libraries(MemBench ${EXTRA_LIBS} benchmark::benchmark)
