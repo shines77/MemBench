@@ -32,17 +32,18 @@ SOFTWARE.
 
 #include <cstring>
 
-#define START_RANGE   (1 << 5)    // 32 bytes
-#define END_RANGE     (1 << 23)   // 8 MB
-#define SHM_RANGE     START_RANGE, END_RANGE
+#define START_RANGE     (32)                  // 32 bytes
+#define END_RANGE       (256 * 1024 * 1024)   // 256 MB
+#define BENCHMARK_RANGE START_RANGE, END_RANGE
 
 template <class CopierT>
-void CopyBench(benchmark::State & state) {  // NOLINT
+void MemCopyBench(benchmark::State & state) {  // NOLINT
     CopierT copier;
     size_t size = state.range(0);
     auto * src = copier.alloc(size);
     auto * dst = copier.alloc(size);
     std::memset(src, 'x', size);
+
     for (auto _ : state) {
         copier.copy(dst, src, size);
         benchmark::DoNotOptimize(dst);
@@ -52,25 +53,25 @@ void CopyBench(benchmark::State & state) {  // NOLINT
     state.SetBytesProcessed(size * static_cast<int64_t>(state.iterations()));
 }
 
-#define SHM_COPY_BENCHMARK(c) \
-    BENCHMARK_TEMPLATE(CopyBench, c)->Range(SHM_RANGE);
+#define MEM_COPY_BENCHMARK(c) \
+    BENCHMARK_TEMPLATE(MemCopyBench, c)->Range(BENCHMARK_RANGE);
 
-SHM_COPY_BENCHMARK(jstd::memory::DefaultCopier);
+MEM_COPY_BENCHMARK(jstd::memory::DefaultCopier);
 
 #ifdef __x86_64__
-SHM_COPY_BENCHMARK(jstd::memory::RepMovsbCopier);
+MEM_COPY_BENCHMARK(jstd::memory::RepMovsbCopier);
 #endif
 
 #ifdef __AVX__
-SHM_COPY_BENCHMARK(jstd::memory::AvxCopier);
-SHM_COPY_BENCHMARK(jstd::memory::AvxUnrollCopier);
+MEM_COPY_BENCHMARK(jstd::memory::AvxCopier);
+MEM_COPY_BENCHMARK(jstd::memory::AvxUnrollCopier);
 #endif
 
 #ifdef __AVX2__
-SHM_COPY_BENCHMARK(jstd::memory::AvxAsyncCopier);
-SHM_COPY_BENCHMARK(jstd::memory::AvxAsyncPFCopier);
-SHM_COPY_BENCHMARK(jstd::memory::AvxAsyncUnrollCopier);
-SHM_COPY_BENCHMARK(jstd::memory::AvxAsyncPFUnrollCopier);
+MEM_COPY_BENCHMARK(jstd::memory::AvxAsyncCopier);
+MEM_COPY_BENCHMARK(jstd::memory::AvxAsyncPFCopier);
+MEM_COPY_BENCHMARK(jstd::memory::AvxAsyncUnrollCopier);
+MEM_COPY_BENCHMARK(jstd::memory::AvxAsyncPFUnrollCopier);
 #endif
 
 BENCHMARK_MAIN();
