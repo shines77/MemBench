@@ -34,7 +34,7 @@ SOFTWARE.
 
 #define START_RANGE     (32)                  // 32 bytes
 #define END_RANGE       (256 * 1024 * 1024)   // 256 MB
-#define BENCHMARK_RANGE START_RANGE, END_RANGE
+#define MEM_BENCH_RANGE START_RANGE, END_RANGE
 
 template <class CopierT>
 void MemCopyBench(benchmark::State & state) {  // NOLINT
@@ -54,7 +54,7 @@ void MemCopyBench(benchmark::State & state) {  // NOLINT
 }
 
 #define MEM_COPY_BENCHMARK(c) \
-    BENCHMARK_TEMPLATE(MemCopyBench, c)->Range(BENCHMARK_RANGE);
+    BENCHMARK_TEMPLATE(MemCopyBench, c)->Range(MEM_BENCH_RANGE);
 
 MEM_COPY_BENCHMARK(jstd::memory::DefaultCopier);
 
