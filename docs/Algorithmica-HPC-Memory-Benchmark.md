@@ -112,6 +112,7 @@
         return ((__uint128_t) m * x) >> 64;
     }
     ```
+
 * [Converting integers to decimal strings faster with AVX-512](https://lemire.me/blog/2022/03/28/converting-integers-to-decimal-strings-faster-with-avx-512/)
 
     We rely on the observation that you can compute directly the quotient and the remainder of the division using a series of multiplications and shifts ([Lemire et al. 2019](https://arxiv.org/abs/1902.01961)).
